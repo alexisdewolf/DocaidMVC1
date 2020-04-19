@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Zones</title>
+</head>
+<body>
+    <h2>Liste des bodyzones</h2>
+    <ul>
+      <% for(var i = 0; i < all_zones.length; i++){ %>
+        <li><a href="/zone/<%= all_zones[i].id  %>"><%= all_zones[i].name %></a></li>
+      <% } %>
+    </ul>
+    <h2>Liste de toutes les notes</h2>
+    <ul>
+      <% for(var j = 0; j < all_notes.length; j++){ %>
+        <li><%= all_notes[j].description %></li>
+      <% } %>
+    </ul>
+    <button onclick="document.location = 'notes/deleteall'">Tout Supprimer</button>
+</body>
+</html>

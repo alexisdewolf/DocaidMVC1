@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zone spécifique</title>
+</head>
+<body>
+<h2>Liste des notes pour <%= zone.name %></h2>
+<ul>
+    <% notes.forEach(note => { %>
+        <li>
+            <%= note.description %> 
+            <a href="/zone/<%= zone.id %>/<%= note.id %>/modify">Modifier la note</a>
+            <a href="/zone/<%= zone.id %>/<%= note.id %>/delete">Supprimer la note</a>
+        </li>
+
+    <% }) %>
+</ul>
+
+<a href="/zone/<%= zone.id %>/add">Ajouter une note</a>
+<a href="/">Retour à la liste des bodyzones</a>
+</body>
+</html>
