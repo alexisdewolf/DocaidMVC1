@@ -4,14 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Body Zones</title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+  <header>
+    <nav>
+      <ul>
+        <% for(var i = 0; i < all_zones.length; i++){ %>
+          <li><a href="/zone/<%= all_zones[i].id  %>"><%= all_zones[i].name %></a></li>
+        <% } %>
+        <li class="delete"><a href="notes/deleteall">Tout Supprimer</a></li>
+      </ul>
+    </nav>
+  </header>
     <h2>Liste des bodyzones</h2>
-    <ul>
-      <% for(var i = 0; i < all_zones.length; i++){ %>
-        <li><a href="/zone/<%= all_zones[i].id  %>"><%= all_zones[i].name %></a></li>
-      <% } %>
-    </ul>
+    <div class="row">
+      <nav class="left">
+        <img src="./images/humanbody.png" alt="Illustration Biotech">
+      </nav>
+
+      <nav class="right">
+        <ul>
+
+        </ul>
+      </nav>
+    </div>
     <h2>Liste de toutes les notes</h2>
     <ul>
       <% for(var j = 0; j < all_notes.length; j++){ %>

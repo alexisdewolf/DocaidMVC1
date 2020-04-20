@@ -6,6 +6,16 @@
     <title>Zone spécifique</title>
 </head>
 <body>
+    <header>
+        <nav>
+            <ul>
+            <% for(var i = 0; i < all_zones.length; i++){ %>
+                <li><a href="/zone/<%= all_zones[i].id  %>"><%= all_zones[i].name %></a></li>
+            <% } %>
+            <li class="delete"><a href="notes/deleteall">Tout Supprimer</a></li>
+            </ul>
+        </nav>
+    </header>
 <h2>Liste des notes pour <%= zone.name %></h2>
 <ul>
     <% notes.forEach(note => { %>
