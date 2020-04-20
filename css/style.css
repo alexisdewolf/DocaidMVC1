@@ -1,3 +1,22 @@
+:root {
+    --base-color-h: 217;
+    --base-color-s: 32%;
+    --base-color-l: 60%;
+    --base-color: hsl(var(--base-color-h),
+                      var(--base-color-s),
+                      var(--base-color-l));
+    --base-color-darken-20: hsl(var(--base-color-h),
+                                var(--base-color-s),
+                                calc(var(--base-color-l) - 20%));
+    --base-color-darken-10: hsl(var(--base-color-h),
+                                var(--base-color-s),
+                                calc(var(--base-color-l) - 10%));
+    --length-regular: 15px;
+    --length-double: calc(var(--length-regular) * 2);
+    --length-triple: calc(var(--length-regular) * 3);  
+    --length-moitie: calc(var(--length-regular) / 2);
+}
+
 body {
 
 }
@@ -24,7 +43,7 @@ nav  ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: var(--base-color);
 }
 
 nav li a {
@@ -36,13 +55,16 @@ text-decoration: none;
 }
 
 nav li a:hover {
-    background-color: #111;
+    background-color: var(--base-color-darken-20);
 }
-
+.accueil {
+    background-color:var(--base-color-darken-10);
+}
 .delete {
-    background-color: #111; 
+    background-color:var(--base-color-darken-10); 
     float:right;
 }
+
 .delete a:hover {
     background-color: red;
 }

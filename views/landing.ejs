@@ -10,6 +10,7 @@
   <header>
     <nav>
       <ul>
+        <li class="accueil"><a href="/">Toutes les notes</a></li>
         <% for(var i = 0; i < all_zones.length; i++){ %>
           <li><a href="/zone/<%= all_zones[i].id  %>"><%= all_zones[i].name %></a></li>
         <% } %>
