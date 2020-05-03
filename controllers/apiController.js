@@ -42,6 +42,20 @@ exports.landing = function (req, res) { // Sélection de toutes les zones et tou
 
 exports.showZone = function(req, res) { // Sélection des notes de la zone correspondante pour afficher sur showZone.ejs
     let bz_id = req.params.id;
+    db.query("SELECT * FROM body_zone ORDER BY bz_id", (err, data) => {
+		if(err){
+			console.log(new Date() + ' Echec de la recherche de la liste des Body Zone : '+err);
+            res.status(400).send(err);        
+		} else {
+            console.log(new Date() + ' Succes de la recherche de la liste des Body Zone ');
+            
+            let all_zones = [];
+
+            data.forEach(elem => {
+                let zone = new Zone(elem.bz_id, elem.bz_name);
+                all_zones.push(zone);
+            })
+        }})
 // Ici on va sélectionner la Body Zone sélectionnée. On fait ceci pour pouvoir définir le modèle Zone qui nous permettra de l'afficher dans la vue
     db.query("SELECT * FROM body_zone WHERE bz_id="+bz_id, (err, data) => {
         if(err){
@@ -106,7 +120,7 @@ exports.updateNote =  function(req, res) { // Modificiation d'une note via API
 };
 
 exports.deleteNote = function(req,res) { // Suppression de la note sélectionnée depuis la page ShowZone.ejs
-    let note_id = req.params.note_id;
+    let notes_id = req.params.note_id;
     let sql = "DELETE FROM `notes` WHERE `notes`.`notes_id` = ?";
     db.query( sql , [req.params.note_id], (err, resultSQL) => {
         if(err) {

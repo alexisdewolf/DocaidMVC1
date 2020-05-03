@@ -2,12 +2,12 @@ let express = require('express');
 let router = express.Router();              
 
 var webController = require('./controllers/webController');
-let apiController = require ('./controllers/apiController')
-
+let apiController = require ('./controllers/apiController');
 
 router.get('/', webController.landing);
 
 router.get('/zone/:id', webController.showZone);
+// router.get('/zone/:id/discipline', webController.showDiscipline);
 router.get('/zone/:id/add', webController.addNote);
 router.post('/notes/new', webController.notesNew);
 router.get('/zone/:id/:note_id/modify', webController.modifyNote);

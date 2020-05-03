@@ -3,32 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zone spécifique</title>
+    <title>Docaid - Zone spécifique de malêtre du corps</title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="Site de prise de note des mal-êtres qui aide à vous diriger vers le bon praticien"/>
+    <meta name="robots" content="noindex, nofollow">
+
 </head>
 <body>
     <header>
         <nav>
             <ul>
-            <% for(var i = 0; i < all_zones.length; i++){ %>
+              <li class="accueil"><a href="/">Toutes les notes</a></li>
+              <% for(var i = 0; i < all_zones.length; i++){ %>
                 <li><a href="/zone/<%= all_zones[i].id  %>"><%= all_zones[i].name %></a></li>
-            <% } %>
-            <li class="delete"><a href="notes/deleteall">Tout Supprimer</a></li>
+              <% } %>
+              <li class="delete"><a class="del" href="notes/deleteall">Tout Supprimer</a></li>
             </ul>
         </nav>
     </header>
-<h2>Liste des notes pour <%= zone.name %></h2>
-<ul>
-    <% notes.forEach(note => { %>
-        <li>
-            <%= note.description %> 
-            <a href="/zone/<%= zone.id %>/<%= note.id %>/modify">Modifier la note</a>
-            <a href="/zone/<%= zone.id %>/<%= note.id %>/delete">Supprimer la note</a>
-        </li>
 
+    <div class="box a">
+        <h2>Liste des disciplines en rapport : </h2>
+        <ul><% for(var i = 0; i < all_disciplines.length; i++){ %>
+            <li><%= all_disciplines[i].description %></li>
+          <% } %> </ul>
+        <p> </p>
+        <h2>Liste des notes pour la zone "<lowercase><%= zone.name %></lowercase>" : </h2>
+    </div>
+
+    <% notes.forEach(note => { %>        
+        <div class="box d">
+            <div class="box e">
+            <%= note.description %>
+            </div>
+            <div class="box f">
+                <!-- Il n'est pas possible de mettre ce bouton "sauver" ailleurs ... J'ai cherché pendant 8 heures une solution. Que ce soit avec des spoilers, des redirect, des boutons
+                qui déclenchent d'autres boutons en dehors du formulaire, mettre un id au formulaire, de par la nature de mon code, il faut modifier quelque chose dont je n'ai pas les
+                connaissances complètes pour pouvoir mettre le bouton ailleurs. En effet, si je met le bouton ailleurs, il se référera d'office au premier bouton sauver de la page. Ce
+                qui sauvera uniquement la première note, même si on clique sur le bouton de la dernière. exemple de ce que j'ai cherche : 
+                https://stackoverflow.com/questions/19467693/how-to-make-popup-look-at-the-centre-of-the-screen
+                https://www.w3schools.com/howto/howto_js_popup_form.asp
+                https://www.w3schools.com/js/js_whereto.asp
+                https://www.w3docs.com/snippets/javascript/how-to-create-a-popup-form-with-css-and-javascript.html
+                https://stackoverflow.com/questions/24845085/auto-increment-numbers-in-div-id-javascript?lq=1
+                https://stackoverflow.com/questions/32197510/show-different-content-in-multiple-css-popups
+                https://til.hashrocket.com/posts/v2s2gxgifj-submit-a-form-with-a-button-outside-the-form
+                https://stackoverflow.com/questions/7532320/one-button-firing-another-buttons-click-event
+                https://css-tricks.com/fade-in-spoiler-revealer/
+                https://dabblet.com/gist/4694413
+                https://community.mybb.com/thread-90744.html
+                https://davidwalsh.name/spoiler-filter
+                ....-->
+                <form id="myform" action="/notes/new" method="POST" class="form-container">
+                    <textarea type="text" name="description" ><%= note.description %></textarea><br>
+                    <input type="hidden" name="bz_id" value="<%= note.bz_id %>" >
+                    <input type="hidden" name="note_id" value="<%= note.id %>">
+                    <button class="btn save" type="submit" name="sauver" value="Sauver">
+                     Sauver</button><br>
+                </form>
+            </div>
+            <div class="box g">
+                <button class="btn del" onclick="window.location.href = '/zone/<%= zone.id %>/<%= note.id %>/delete';" aria-label="Delete">        
+                    <img class="icon basecolorlighten" src="../images/poubelle_suppression.png" alt="Icone de suppression">
+                    Supprimer la note
+                </button>
+            </div>
+        </div>
     <% }) %>
-</ul>
 
-<a href="/zone/<%= zone.id %>/add">Ajouter une note</a>
-<a href="/">Retour à la liste des bodyzones</a>
+    <div class="box a">
+        <button class="btn add"><a href="/zone/<%= zone.id %>/add">Ajouter une note</a></button>
+        <button class="btn"><a href="/">Toutes les notes</a></button>
+    </div>
+
 </body>
 </html>

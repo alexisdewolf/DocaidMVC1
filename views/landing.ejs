@@ -3,39 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Body Zones</title>
+    <title>Docaid - Votre aide de redirection des patiens</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="Site de prise de note des mal-êtres qui aide à vous diriger vers le bon praticien"/>
+    <meta name="robots" content="noindex, nofollow">
+
 </head>
+
 <body>
   <header>
     <nav>
       <ul>
-        <li class="accueil"><a href="/">Toutes les notes</a></li>
+        <li class="accueil" tabindex="1"><a href="/">Toutes les notes</a></li>
         <% for(var i = 0; i < all_zones.length; i++){ %>
           <li><a href="/zone/<%= all_zones[i].id  %>"><%= all_zones[i].name %></a></li>
         <% } %>
-        <li class="delete"><a href="notes/deleteall">Tout Supprimer</a></li>
+        <li class="delete"><a class="del" href="notes/deleteall">Tout Supprimer</a></li>
       </ul>
     </nav>
   </header>
+  <div class="box a">
     <h2>Liste des bodyzones</h2>
-    <div class="row">
-      <nav class="left">
-        <img src="./images/humanbody.png" alt="Illustration Biotech">
-      </nav>
-
-      <nav class="right">
-        <ul>
-
-        </ul>
-      </nav>
-    </div>
+  </div>
+  <div class="box a">
+        <img class="imageaccueil" src="./images/humanbody.png" alt="Le corps humain">
+        <% for(var i = 0; i < all_zones.length; i++){ %>
+          <ul class="accueilul"><li><button class="btn acc"><a href="/zone/<%= all_zones[i].id  %>"><%= all_zones[i].name %></a></button></li></ul>
+        <% } %>
+  </div>
+  <div class="box a">
+    
     <h2>Liste de toutes les notes</h2>
+  </div>
+  <div class="box d">
+  <div class="box e">
     <ul>
       <% for(var j = 0; j < all_notes.length; j++){ %>
         <li><%= all_notes[j].description %></li>
       <% } %>
     </ul>
-    <button onclick="document.location = 'notes/deleteall'">Tout Supprimer</button>
+  </div>
+    <button class="btn del" onclick="document.location = 'notes/deleteall'">
+      <img class="icon basecolorlighten" src="../images/poubelle_suppression.png" alt="Icone de suppression">
+      Tout Supprimer
+    </button>
+  </div>
 </body>
 </html>
