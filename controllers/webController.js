@@ -157,7 +157,7 @@ exports.notesNew =  function(req, res) { // On est en post : ajout de la note de
             } else {
                 console.log(new Date() + ' Succès de l\'insertion de la nouvelle note ');
                 res.status(201);
-                res.redirect('/');
+                res.redirect('/zone/'+note.bz_id);
             }
         })
     }
@@ -170,7 +170,7 @@ exports.notesNew =  function(req, res) { // On est en post : ajout de la note de
             }else {
                 console.log(new Date() + ' Succès de l\'actualisation de la note '+note.id+' avec la description '+note.description);
                 res.status(202);
-                res.redirect("/");
+                res.redirect('/zone/'+note.bz_id);
             }
         })
     }

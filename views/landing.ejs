@@ -28,7 +28,7 @@
   <div class="box a">
         <img class="imageaccueil" src="./images/humanbody.png" alt="Le corps humain">
         <% for(var i = 0; i < all_zones.length; i++){ %>
-          <ul class="accueilul"><li><button class="btn acc"><a href="/zone/<%= all_zones[i].id  %>"><%= all_zones[i].name %></a></button></li></ul>
+          <ul class="accueilul"><li><a href="/zone/<%= all_zones[i].id  %>"><button class="btn acc"><%= all_zones[i].name %></button></a></li></ul>
         <% } %>
   </div>
   <div class="box a">
