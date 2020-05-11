@@ -3,6 +3,7 @@ let Note = require('../models/Note');
 let Discipline = require('../models/Discipline')
 let db = require('../db');
 
+
 exports.landing = function (req, res) { // Sélection de toutes les zones et toutes les notes pour afficher sur landing.ejs
 // Ici on va sélectionner toutes les zones pour afficher des liens sur la landing page.
     db.query("SELECT * FROM body_zone ORDER BY bz_id", (err, data) => {
