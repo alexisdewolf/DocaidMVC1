@@ -5,10 +5,10 @@ let db = require('../db');
 
 exports.landing = function (req, res) { // Sélection de toutes les zones et toutes les notes pour afficher sur landing.ejs
 // Ici on va sélectionner toutes les zones pour afficher des liens sur la landing page.
-    db.query("SELECT * FROM body_zone ORDfER BY bz_id", (err, data) => {
+    db.query("SELECT * FROM body_zone ORDER BY bz_id", (err, data) => {
 		if(err){
 			console.log(new Date() + ' Echec de la recherche de la liste des Body Zone : '+err);
-            res.status(400).send(err);        
+            res.status(400).json ({'message' : 'error'}.send(err));
 		} else {
             console.log(new Date() + ' Succes de la recherche de la liste des Body Zone ');
             
@@ -23,7 +23,7 @@ exports.landing = function (req, res) { // Sélection de toutes les zones et tou
             db.query("SELECT * FROM notes ORDER BY notes_id", (err, data) => {
                 if(err){
                     console.log(new Date() + ' Echec de la recherche de la liste des notes : '+err);
-                    res.status(400).send(err);
+                    res.status(400).json ({'message' : 'error'}.send(err));
                 } else {
                     console.log(new Date() + ' Succes de la recherche de la liste des notes ');
                     
@@ -46,7 +46,7 @@ exports.showZone = function(req, res) { // Sélection des notes de la zone corre
         db.query("SELECT * FROM body_zone ORDER BY bz_id", (err, data) => {
 		if(err){
 			console.log(new Date() + ' Echec de la recherche de la liste des Body Zone : '+err);
-            res.status(400).send(err);        
+            res.status(400).json ({'message' : 'error'}.send(err));
 		} else {
             console.log(new Date() + ' Succes de la recherche de la liste des Body Zone ');
             let all_zones = [];
@@ -58,7 +58,7 @@ exports.showZone = function(req, res) { // Sélection des notes de la zone corre
             db.query("SELECT * FROM body_zone WHERE bz_id="+bz_id, (err, data) => {
             if(err){
                 console.log(new Date() + ' Echec de la recherche de la Body Zone '+bz_id+err);
-                res.status(400).send(err);
+                res.status(400).json ({'message ' : 'error'}.send(err));
 		    } else {
                 console.log(new Date() + ' Succès de la recherche de la Body Zone '+bz_id);
                 let zone = new Zone(data[0].bz_id, data[0].bz_name);
@@ -67,7 +67,7 @@ exports.showZone = function(req, res) { // Sélection des notes de la zone corre
                 db.query("SELECT * FROM notes WHERE bz_id="+bz_id+" ORDER BY notes_id", (err, data) => {
                     if(err){
                         console.log(new Date() + ' Echec de la recherche des notes pour la Body Zone '+bz_id+err);
-                        res.status(400).send(err);
+                        res.status(400).json ({'message ' : 'error'}.send(err));
                     } else {
                         console.log(new Date() + ' Succès de la recherche des notes pour la Body Zone '+bz_id);
                         res.status(200);
@@ -81,7 +81,7 @@ exports.showZone = function(req, res) { // Sélection des notes de la zone corre
                         db.query("SELECT * FROM Discipline where bz_id ="+bz_id, (err, data) => {
                             if(err){
                                 console.log(new Date() + ' Echec de la recherche de la liste des disciplines : '+err);
-                                res.status(400).send(err);        
+                                res.status(400).json ({'message error' : 'error'}.send(err));
                             } else {
                                 console.log(new Date() + ' Succes de la recherche de la liste des disciplines ');
                             let all_disciplines = [];
@@ -99,14 +99,10 @@ exports.showZone = function(req, res) { // Sélection des notes de la zone corre
 };
 
 exports.notesNew =  function(req, res) { // On est en post : ajout de la note de addNotes dans la DB & modification de la note de modifyNote
-    let bz_id = req.body.bz_id;
-    let description = req.body.description;
-    let note_id = req.body.note_id;
-    let note = new Note(-1, description, bz_id);
-    db.query("INSERT INTO notes (notes_description, bz_id) VALUES ('"+note.description+"', '"+note.bz_id+"')", function (err,data){
+    db.query("INSERT INTO notes (notes_description, bz_id) VALUES ('"+req.body.description+"', '"+req.body.bz_id+"')", function (err,data){
         if(err){
             console.log(new Date() + ' Echec de l\'insertion de la nouvelle note '+err);
-            res.status(400).send(err);
+            res.status(400).json ({'message ' : 'error'}.send(err));
         } else {
             console.log(new Date() + ' Succès de l\'insertion de la nouvelle note ');
             res.status(201).json({'message':'succes'});
@@ -117,7 +113,7 @@ exports.notesNew =  function(req, res) { // On est en post : ajout de la note de
 exports.updateNote =  function(req, res) { // Modificiation d'une note via API
     db.query("UPDATE notes SET notes_description ='"+req.body.description+"'  WHERE notes_id = "+req.params.id, function (err, data){
         if(err){
-            res.status(400).send(err);
+            res.status(400).json ({'message ' : 'error'}.send(err));
             console.log(new Date() + ' Echec de l\'actualisation de la note '+err);
         }else {
             console.log(new Date() + ' Succès de l\'actualisation de la note ');
@@ -127,13 +123,12 @@ exports.updateNote =  function(req, res) { // Modificiation d'une note via API
 };
 
 exports.deleteNote = function(req,res) { // Suppression de la note sélectionnée depuis la page ShowZone.ejs
-    let note_id = req.params.id;
-    db.query("DELETE FROM notes where notes_id="+note_id, (err,data) => {
+    db.query("DELETE FROM notes where notes_id="+req.params.id, (err,data) => {
         if(err) {
-            console.log(new Date() + ' Echec de la suppression de la note '+note_id+err);
-            res.status(400).send(err);
+            console.log(new Date() + ' Echec de la suppression de la note '+req.params.id+err);
+            res.status(400).json ({'message ' : 'error'}.send(err));
         } else{
-            console.log(new Date() + ' Succès de la supression de  la note '+note_id);
+            console.log(new Date() + ' Succès de la supression de  la note '+req.params.id);
             res.status(200).json({'message':'succes'});
         }
     })
@@ -142,7 +137,7 @@ exports.deleteNote = function(req,res) { // Suppression de la note sélectionné
 exports.deleteAll = function(req,res) { // Suppression de toutes les notes depuis la page Landing.ejs
     db.query("DELETE FROM notes", (err,data) => {
         if(err) {
-            res.status(400).send(err);
+            res.status(400).json ({'message ' : 'error'}.send(err));
             console.log(new Date() + ' Echec de la suppression de toutes les notes '+err);
         } else{
             console.log(new Date() + ' Succès de la suprression de toutes les notes ');
